@@ -271,8 +271,8 @@ form {
 }
 
 .calc-row-six div:hover {
-  /* opacity: .7; */
-  text-shadow: 10px 10px 10px 10px white;
+  opacity: .7;
+  /* text-shadow: 10px 10px 10px 10px white; */
 }
 
 .last-border {

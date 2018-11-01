@@ -7,7 +7,7 @@ class App extends Component {
     super()
     this.state = {
       solution: " ",
-      name: "SuperCalc",
+      name: "MyCalc",
       nameText: "",
       oldSolution: ""
     }
@@ -53,17 +53,18 @@ class App extends Component {
 
   errors(string) {
     let parenths = 0
-    let symbols = "+-*/".split("")
-    let letters = "stc".split("")
+    let symbols = "+*/".split("")
+    let firstSymbols = "+*/".split("")
     let isError = false
-    if (symbols.includes(string[0]) || symbols.includes(string[string.length-1])) return true
-    for(let i=1; i<string.length-1; i++) {
+    if (firstSymbols.includes(string[0]) || symbols.includes(string[string.length-1])) return true
+    for(let i=0; i<string.length; i++) {
+      console.log(string[i]);
       if (string[i] === "(") parenths ++
       if (string[i] === ")") parenths --
-      if ((symbols.includes(string[i]) && symbols.includes(string[i+1])) || (symbols.includes(string[i]) && symbols.includes(string[i+1]))) isError = true
-      if ((letters.includes(string[i]) && !symbols.includes(string[i-1])))isError = true
+      if ((symbols.includes(string[i]) && symbols.includes(string[i+1])) || (symbols.includes(string[i]) && symbols.includes(string[i+1]))) return true
     }
-    if (parenths !== 0) isError = true
+    console.log(parenths);
+    if (parenths !== 0) return true
     return isError
   }
 
@@ -116,7 +117,7 @@ class App extends Component {
                 <div className="calc-name">
                   <div className="calc-name-text" onClick={() => this.unhideName()}>{this.state.name}</div>
                   <form onSubmit={e => this.changeName(e)} className="name-form hidden">
-                    <input type="text" onChange={e => this.onChange(e)} value={this.state.nameText} placeholder="SuperCalc"/>
+                    <input type="text" onChange={e => this.onChange(e)} value={this.state.nameText} placeholder="MyCalc"/>
                     <input type="submit" value="Name"/>
                   </form>
                 </div>

@@ -45,7 +45,6 @@ class App extends Component {
     for(let i=string.length-1; i>0; i--){
       if (!numbers.includes(string[i])) {
         string[i] === "-" ? string = string.substr(0, i) + string.substr(i+1, string.length) : string = string.substr(0, i+1) + "-" + string.substr(i+1, string.length)
-        console.log("here");
         return this.setState({solution: string})
       }
     }
@@ -58,12 +57,10 @@ class App extends Component {
     let isError = false
     if (firstSymbols.includes(string[0]) || symbols.includes(string[string.length-1])) return true
     for(let i=0; i<string.length; i++) {
-      console.log(string[i]);
       if (string[i] === "(") parenths ++
       if (string[i] === ")") parenths --
       if ((symbols.includes(string[i]) && symbols.includes(string[i+1])) || (symbols.includes(string[i]) && symbols.includes(string[i+1]))) return true
     }
-    console.log(parenths);
     if (parenths !== 0) return true
     return isError
   }
@@ -81,14 +78,20 @@ class App extends Component {
       }
     })
     arithString = this.addMultiplyer(arithString)
-    console.log(this.errors(arithString));
     if (this.errors(arithString)) {
       this.setState({solution: "error"})
       setTimeout(() => {
         this.setState({solution: this.state.oldSolution})
       }, 2000)
     } else {
-      this.setState({solution: safeEval(arithString)})
+      try {
+        this.setState({solution: safeEval(arithString)})
+      } catch(err) {
+        this.setState({solution: "error"})
+        setTimeout(() => {
+          this.setState({solution: this.state.oldSolution})
+        }, 2000)
+      }
     }
   }
 

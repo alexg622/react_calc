@@ -131,7 +131,7 @@ class App extends Component {
   evalSolution() {
     // returns the solution
     let arithString = ""
-    let skipLetters = "sintancosSQRT^".split("")
+    let skipLetters = "sintancosSQRTPI^".split("")
     this.setState({oldSolution: String(this.state.solution)})
     String(this.state.solution).split("").forEach(char => {
       if (char !== " ") {
@@ -140,6 +140,7 @@ class App extends Component {
         if (char === "c") arithString += "Math.cos"
         if (char === "^") arithString += "**"
         if (char === "S") arithString += "Math.sqrt"
+        if (char === "P") arithString += "Math.PI"
         if (!skipLetters.includes(char)) arithString += char
       }
     })
@@ -235,7 +236,7 @@ class App extends Component {
                     <div onClick={() => this.setState({solution: (this.state.solution + " SQRT(")})} className="first-row-border">sqrt</div>
                     <div onClick={() => this.setState({solution: (this.state.solution + " ^ ")})} >exp</div>
                     <div onClick={() => this.primeResponse()}>prime?</div>
-                    <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + " + ")})}>x!</div>
+                    <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + " PI ")})}>PI</div>
                   </div>
                   <div className="calc-row-six">
                     <div className="first-row-border bottom-border" onClick={() => this.setState({solution: (this.state.solution + " sin(")})}>sin</div>

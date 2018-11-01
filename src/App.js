@@ -19,7 +19,9 @@ class App extends Component {
     // addEventListeners for key presses so user can type in math problems
     document.addEventListener("keypress", e => {
       if(this.state.active) {
+        console.log(e.keyCode);
         if(e.keyCode === 49) this.setState({solution: this.state.solution + "1"})
+        if(e.keyCode === 94) this.setState({solution: this.state.solution + " ^ "})
         if(e.keyCode === 50) this.setState({solution: this.state.solution + "2"})
         if(e.keyCode === 51) this.setState({solution: this.state.solution + "3"})
         if(e.keyCode === 52) this.setState({solution: this.state.solution + "4"})
@@ -88,11 +90,34 @@ class App extends Component {
     }
   }
 
+  prime(num) {
+    try {
+      for (let i=2; i<num; i++) {
+        if (num % i === 0) return false
+        console.log(num % i);
+      }
+    } catch(err) {
+      return false
+    }
+    return true
+  }
+
+  primeResponse() {
+    let num = parseInt(this.state.solution)
+    console.log(this.prime(num));
+    if (this.prime(num)) {
+      this.setState({solution: "Yes"})
+    } else {
+      this.setState({solution: "No"})
+    }
+  }
+
   errors(string) {
     let parenths = 0
-    let symbols = "+*/".split("")
-    let firstSymbols = "+*/".split("")
+    let symbols = "+/".split("")
+    let firstSymbols = "+/".split("")
     let isError = false
+    console.log(string);
     if (firstSymbols.includes(string[0]) || symbols.includes(string[string.length-1])) return true
     for(let i=0; i<string.length; i++) {
       if (string[i] === "(") parenths ++
@@ -106,13 +131,15 @@ class App extends Component {
   evalSolution() {
     // returns the solution
     let arithString = ""
-    let skipLetters = "sintancos".split("")
+    let skipLetters = "sintancosSQRT^".split("")
     this.setState({oldSolution: String(this.state.solution)})
     String(this.state.solution).split("").forEach(char => {
       if (char !== " ") {
         if (char === "i") arithString += "Math.sin"
         if (char === "t") arithString += "Math.tan"
         if (char === "c") arithString += "Math.cos"
+        if (char === "^") arithString += "**"
+        if (char === "S") arithString += "Math.sqrt"
         if (!skipLetters.includes(char)) arithString += char
       }
     })
@@ -203,6 +230,12 @@ class App extends Component {
                     <div onClick={() => this.setState({solution: (this.state.solution + ".")})}>.</div>
                     <div id="equal-sign" onClick={() => this.evalSolution()}>=</div>
                     <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + " + ")})}>+</div>
+                  </div>
+                  <div className="calc-row-five">
+                    <div onClick={() => this.setState({solution: (this.state.solution + " SQRT(")})} className="first-row-border">sqrt</div>
+                    <div onClick={() => this.setState({solution: (this.state.solution + " ^ ")})} >exp</div>
+                    <div onClick={() => this.primeResponse()}>prime?</div>
+                    <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + " + ")})}>x!</div>
                   </div>
                   <div className="calc-row-six">
                     <div className="first-row-border bottom-border" onClick={() => this.setState({solution: (this.state.solution + " sin(")})}>sin</div>

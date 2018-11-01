@@ -8,9 +8,46 @@ class App extends Component {
     this.state = {
       solution: " ",
       name: "MyCalc",
-      nameText: "",
-      oldSolution: ""
+      nameText: "MyCalc",
+      oldSolution: "",
+      active: true
     }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keypress", e => {
+      if(this.state.active) {
+        if(e.keyCode === 49) this.setState({solution: this.state.solution + "1"})
+        if(e.keyCode === 50) this.setState({solution: this.state.solution + "2"})
+        if(e.keyCode === 51) this.setState({solution: this.state.solution + "3"})
+        if(e.keyCode === 52) this.setState({solution: this.state.solution + "4"})
+        if(e.keyCode === 53) this.setState({solution: this.state.solution + "5"})
+        if(e.keyCode === 54) this.setState({solution: this.state.solution + "6"})
+        if(e.keyCode === 55) this.setState({solution: this.state.solution + "7"})
+        if(e.keyCode === 56) this.setState({solution: this.state.solution + "8"})
+        if(e.keyCode === 57) this.setState({solution: this.state.solution + "9"})
+        if(e.keyCode === 48) this.setState({solution: this.state.solution + "0"})
+        if(e.keyCode === 45) this.setState({solution: this.state.solution + " - "})
+        if(e.keyCode === 40) this.setState({solution: this.state.solution + " ("})
+        if(e.keyCode === 41) this.setState({solution: this.state.solution + ") "})
+        if(e.keyCode === 43) this.setState({solution: this.state.solution + " + "})
+        if(e.keyCode === 47) this.setState({solution: this.state.solution + " / "})
+        if(e.keyCode === 42) this.setState({solution: this.state.solution + " * "})
+        if(e.keyCode === 13) {
+          this.evalSolution()
+          this.setState({active: false})
+          setTimeout(() => {
+            this.setState({active: true})
+          }, 3000)
+        }
+        if(e.keyCode === 46) this.setState({solution: this.state.solution + "."})
+      }
+    })
+    document.addEventListener("keydown", e => {
+      if(this.state.active) {
+        if(e.keyCode === 8) this.setState({solution: (String(this.state.solution).substr(0, String(this.state.solution).length-1))})
+      }
+    })
   }
 
   addMultiplyer(string) {
@@ -138,7 +175,7 @@ class App extends Component {
                     <div className="first-row-border" onClick={() => this.setState({solution: (this.state.solution + "7")})}>7</div>
                     <div onClick={() => this.setState({solution: (this.state.solution + "8")})}>8</div>
                     <div onClick={() => this.setState({solution: (this.state.solution + "9")})}>9</div>
-                    <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + "/")})}>/</div>
+                    <div id="special" className="last-border" onClick={() => this.setState({solution: (this.state.solution + " / ")})}>/</div>
                   </div>
                   <div className="calc-row-three">
                     <div className="first-row-border" onClick={() => this.setState({solution: (this.state.solution + "4")})}>4</div>

@@ -6,15 +6,17 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-      solution: " ",
+      solution: "",
       name: "MyCalc",
       nameText: "MyCalc",
       oldSolution: "",
+      // makes it so user cant type when the error message is showing
       active: true
     }
   }
 
   componentDidMount() {
+    // addEventListeners for key presses so user can type in math problems
     document.addEventListener("keypress", e => {
       if(this.state.active) {
         if(e.keyCode === 49) this.setState({solution: this.state.solution + "1"})
@@ -61,6 +63,7 @@ class App extends Component {
   }
 
   makeNegative() {
+    // lets user make a number negative or positive after they typed it in
     let numbers = "1234567890".split("")
     let string = String(this.state.solution)
     let splitString = string.split("")
@@ -68,7 +71,7 @@ class App extends Component {
       string = string.substr(2, string.length)
       return this.setState({solution: string})
     }
-    if(string[0] === "-") {
+    if(string[0] === "-" && !splitString.includes(" ")) {
       string = string.substr(1, string.length)
       return this.setState({solution: string})
     }
@@ -76,8 +79,6 @@ class App extends Component {
       string = "-" + string.substr(0, string.length)
       return this.setState({solution: string})
     }
-
-
     if (!numbers.includes(string[string.length-1])) return
     for(let i=string.length-1; i>0; i--){
       if (!numbers.includes(string[i])) {
@@ -103,6 +104,7 @@ class App extends Component {
   }
 
   evalSolution() {
+    // returns the solution
     let arithString = ""
     let skipLetters = "sintancos".split("")
     this.setState({oldSolution: String(this.state.solution)})
@@ -133,18 +135,25 @@ class App extends Component {
   }
 
   changeName(e) {
+    // Changes name of calculator
     e.preventDefault()
     this.setState({name: this.state.nameText})
-    this.unhideName()
+    this.toggleNameForm()
   }
 
   onChange(e) {
     this.setState({nameText: e.target.value})
   }
 
-  unhideName() {
+  toggleNameForm() {
     let nameForm = document.querySelector(".name-form")
-    Array.from(nameForm.classList).includes("hidden") ? nameForm.classList.remove("hidden") : nameForm.classList.add("hidden")
+    if (Array.from(nameForm.classList).includes("hidden")) {
+      nameForm.classList.remove("hidden")
+      this.setState({active: false})
+    } else {
+      nameForm.classList.add("hidden")
+      this.setState({active: true})
+    }
   }
 
   render() {
@@ -155,7 +164,7 @@ class App extends Component {
             <div className="calc-container">
               <div className="make-smaller-container">
                 <div className="calc-name">
-                  <div className="calc-name-text" onClick={() => this.unhideName()}>{this.state.name}</div>
+                  <div className="calc-name-text" onClick={() => this.toggleNameForm()}>{this.state.name}</div>
                   <form onSubmit={e => this.changeName(e)} className="name-form hidden">
                     <input type="text" onChange={e => this.onChange(e)} value={this.state.nameText} placeholder="MyCalc"/>
                     <input type="submit" value="Name"/>

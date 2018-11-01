@@ -118,7 +118,7 @@ input:hover {
 .calc-name-text {
   font-size: 35px;
   font-weight: bold;
-  text-shadow: -1px -1px 0 lightblue, 1px -1px 0 lightblue, -1px 1px 0 lightblue, 1px 1px 0 lightblue;
+  /* text-shadow: -1px -1px 0 lightblue, 1px -1px 0 lightblue, -1px 1px 0 lightblue, 1px 1px 0 lightblue; */
 }
 
 form {

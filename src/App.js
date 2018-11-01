@@ -19,7 +19,6 @@ class App extends Component {
     // addEventListeners for key presses so user can type in math problems
     document.addEventListener("keypress", e => {
       if(this.state.active) {
-        console.log(e.keyCode);
         if(e.keyCode === 49) this.setState({solution: this.state.solution + "1"})
         if(e.keyCode === 94) this.setState({solution: this.state.solution + " ^ "})
         if(e.keyCode === 50) this.setState({solution: this.state.solution + "2"})
@@ -94,7 +93,6 @@ class App extends Component {
     try {
       for (let i=2; i<num; i++) {
         if (num % i === 0) return false
-        console.log(num % i);
       }
     } catch(err) {
       return false
@@ -104,7 +102,6 @@ class App extends Component {
 
   primeResponse() {
     let num = parseInt(this.state.solution)
-    console.log(this.prime(num));
     if (this.prime(num)) {
       this.setState({solution: "Yes"})
     } else {
@@ -117,7 +114,6 @@ class App extends Component {
     let symbols = "+/".split("")
     let firstSymbols = "+/".split("")
     let isError = false
-    console.log(string);
     if (firstSymbols.includes(string[0]) || symbols.includes(string[string.length-1])) return true
     for(let i=0; i<string.length; i++) {
       if (string[i] === "(") parenths ++
